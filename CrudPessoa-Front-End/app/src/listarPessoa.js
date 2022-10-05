@@ -7,7 +7,10 @@ async function PreencherTabelaPessoas(resposta, limpar){
 
     if(!resposta.sucesso)
         alert(resposta.mensagem);
-    else{
+    else if(resposta.resultado.length == 0){
+        tabela.innerHTML = 'Não há registros para exibir.';
+    }
+    else {
         resposta.resultado.forEach(function(e) {
             let linha = document.createElement('tr');
             linha.addEventListener('click', ()=> {            
@@ -66,7 +69,7 @@ async function ListarPessoas(){
     return req;
 }
 function Voltar(){
-    window.history.back();
+    window.location.href = './index.html';   
 }
 async function ListarPorCriterio(elemento){
     let texto = elemento.value;

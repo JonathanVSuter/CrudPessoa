@@ -15,40 +15,39 @@ async function Salvar(){
         pessoa        
     };
 
-    let response = await EnviarApi(salvarPessoaViewModel);
-    console.log(response);
-}
-    
-    //função para fazer uma request na api;
-async function EnviarApi(viewmodel){
-    
     //opções/dados para fazer a request;
     const options = {
-    //método, se é um post, get etc..
-        method: 'POST', 
-        headers:{'content-type': 'application/json'},       
-        body: JSON.stringify(viewmodel) 
-    };
-
-    //TODO: mudar a url para o seu localhost.
-    const req =  await fetch('https://localhost:44365/pessoa/salvar', options )
-    //caso a request dê certo, retornará a resposta;
-    .then(response => {      
-        response.text()
-        .then(data=>  {
-            alert(data);
-            return data;
+        //método, se é um post, get etc..
+            method: 'POST', 
+            headers:{'content-type': 'application/json'},       
+            body: JSON.stringify(salvarPessoaViewModel) 
+        };
+    
+        //TODO: mudar a url para o seu localhost.
+        const req =  await fetch('https://localhost:44365/pessoa/salvar', options )
+        //caso a request dê certo, retornará a resposta;
+        .then(response => {      
+            return response.json();            
+        }) 
+        //caso dê erro, irá retornar o erro e mostrar no console
+        .catch(erro => {
+            console.log(erro);
+            return erro;
         });
-    }) 
-    //caso dê erro, irá retornar o erro e mostrar no console
-    .catch(erro => {
-        console.log(erro);
-        return erro;
-    });
-
-    return req;
+    if(req.sucesso){
+        alert(req.mensagem); 
+        Voltar();
+    }
+    else {
+        alert(req.mensagem); 
+    }
+} 
+function convertToDate(data){
+    var pattern = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    var arrayDate = data.match(pattern);
+    var dt = new Date(arrayDate[3], arrayDate[2] - 1, arrayDate[1]);
+    return dt;
 }
-
 function Voltar(){
-    window.history.back();
+    window.location.href = './index.html';
 }

@@ -34,9 +34,9 @@ namespace CrudPessoa.Repositories
                     pessoaDto.Nome = pessoa.Nome;
                     pessoaDto.Cpf = pessoa.Cpf;
                     pessoaDto.Rg = pessoa.Rg;
-                    pessoaDto.DataDeNascimento = pessoa.DataDeNascimento;
-                    pessoaDto.DataDeAtualizacao = pessoa.DataAtualização;
-                    pessoaDto.DataDeRegistro = pessoa.DataRegistro;
+                    pessoaDto.DataDeNascimento = pessoa.DataDeNascimento.ToString("dd/MM/yyyy");
+                    pessoaDto.DataDeAtualizacao = pessoa.DataAtualização.ToString("dd/MM/yyyy");
+                    pessoaDto.DataDeRegistro = pessoa.DataRegistro.ToString("dd/MM/yyyy");
                 }
 
                 return pessoaDto;
@@ -62,7 +62,7 @@ namespace CrudPessoa.Repositories
                         nome = pessoa.Nome,
                         cpf = pessoa.Cpf,
                         rg = pessoa.Rg,
-                        dataNascimento = pessoa.DataDeNascimento,
+                        dataNascimento = Convert.ToDateTime(pessoa.DataDeNascimento),
                         dataAtualizacao = DateTime.Now
                     };
                     connection.Execute(query, parametros);
@@ -81,7 +81,11 @@ namespace CrudPessoa.Repositories
             List<PessoaDto> pessoasEncontradas;
             try
             {
-                var query = @"SELECT Id, Nome, Cpf, Rg, DataDeRegistro, DataDeAtualizacao, DataDeNascimento, DataDeRegistro FROM Pessoa                                      ";
+                var query = @"SELECT Id, Nome, Cpf, Rg,
+                                     FORMAT(p.DataDeRegistro, 'dd/MM/yyyy') as DataDeRegistro, 
+                                     FORMAT(p.DataDeAtualizacao, 'dd/MM/yyyy') as DataDeAtualizacao, 
+                                     FORMAT(p.DataDeNascimento, 'dd/MM/yyyy') as DataDeNascimento
+                              FROM Pessoa p";
 
                 using (var connection = new SqlConnection(_connection))
                 {
@@ -100,9 +104,12 @@ namespace CrudPessoa.Repositories
             List<PessoaDto> pessoasEncontradas;
             try
             {
-                var query = @"SELECT Id, Nome, Cpf, DataDeAtualizacao,
-                                    DataDeNascimento, DataDeRegistro, Rg FROM Pessoa
-                                      WHERE Nome like CONCAT('%',@criterio,'%')";
+                var query = @"SELECT Id, Nome, Cpf, Rg,
+                                     FORMAT(p.DataDeRegistro, 'dd/MM/yyyy') as DataDeRegistro, 
+                                     FORMAT(p.DataDeAtualizacao, 'dd/MM/yyyy') as DataDeAtualizacao, 
+                                     FORMAT(p.DataDeNascimento, 'dd/MM/yyyy') as DataDeNascimento 
+                              FROM Pessoa p
+                              WHERE CONCAT(Id,Nome,Cpf,Rg,DataDeRegistro,DataDeAtualizacao,DataDeNascimento) like CONCAT('%',@criterio,'%')";
 
                 using (var connection = new SqlConnection(_connection))
                 {
@@ -125,9 +132,12 @@ namespace CrudPessoa.Repositories
             PessoaDto pessoaEncontrada;
             try
             {
-                var query = @"SELECT Id, Nome, Cpf, DataDeAtualizacao, Rg,
-                                    DataDeNascimento, DataDeRegistro FROM Pessoa
-                                      WHERE Id = @id";
+                var query = @"SELECT Id, Nome, Cpf, Rg,
+                                     FORMAT(p.DataDeRegistro, 'dd/MM/yyyy') as DataDeRegistro, 
+                                     FORMAT(p.DataDeAtualizacao, 'dd/MM/yyyy') as DataDeAtualizacao, 
+                                     FORMAT(p.DataDeNascimento, 'dd/MM/yyyy') as DataDeNascimento                                    
+                              FROM Pessoa p
+                              WHERE Id = @id";
 
                 using (var connection = new SqlConnection(_connection))
                 {
