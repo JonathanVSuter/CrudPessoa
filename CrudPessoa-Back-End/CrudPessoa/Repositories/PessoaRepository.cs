@@ -35,7 +35,7 @@ namespace CrudPessoa.Repositories
                     pessoaDto.Cpf = pessoa.Cpf;
                     pessoaDto.Rg = pessoa.Rg;
                     pessoaDto.DataDeNascimento = pessoa.DataDeNascimento;
-                    pessoaDto.DataDeAtualização = pessoa.DataAtualização;
+                    pessoaDto.DataDeAtualizacao = pessoa.DataAtualização;
                     pessoaDto.DataDeRegistro = pessoa.DataRegistro;
                 }
 
@@ -101,7 +101,7 @@ namespace CrudPessoa.Repositories
             try
             {
                 var query = @"SELECT Id, Nome, Cpf, DataDeAtualizacao,
-                                    DataDeNascimento, DataDeRegistro FROM Pessoa
+                                    DataDeNascimento, DataDeRegistro, Rg FROM Pessoa
                                       WHERE Nome like CONCAT('%',@criterio,'%')";
 
                 using (var connection = new SqlConnection(_connection))
@@ -113,6 +113,31 @@ namespace CrudPessoa.Repositories
                     pessoasEncontradas = connection.Query<PessoaDto>(query, parametros).ToList();
                 }
                 return pessoasEncontradas;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro: " + ex.Message);
+                return null;
+            }
+        }
+        public PessoaDto EncontrarPorId(int id) 
+        {
+            PessoaDto pessoaEncontrada;
+            try
+            {
+                var query = @"SELECT Id, Nome, Cpf, DataDeAtualizacao, Rg,
+                                    DataDeNascimento, DataDeRegistro FROM Pessoa
+                                      WHERE Id = @id";
+
+                using (var connection = new SqlConnection(_connection))
+                {
+                    var parametros = new
+                    {
+                        id
+                    };
+                    pessoaEncontrada = connection.QueryFirstOrDefault<PessoaDto>(query, parametros);
+                }
+                return pessoaEncontrada;
             }
             catch (Exception ex)
             {

@@ -31,6 +31,15 @@ namespace CrudPessoa.Controllers
                 return Ok(new { sucesso = true, resultado, mensagem = "Não foram encontrados registros." });
             return Ok(new { sucesso = true, resultado });
         }
+        [HttpGet]
+        public IActionResult EncontrarPorId(int id)
+        {
+            var resultado = _pessoaRepository.EncontrarPorId(id);
+
+            if (resultado == null)
+                return Ok(new { sucesso = true, resultado, mensagem = "Não foi encontrado nenhum registro com o Id informado." });
+            return Ok(new { sucesso = true, resultado });
+        }
 
         [HttpPost]
         public IActionResult Salvar(SalvarPessoaViewModel salvarViewModel)

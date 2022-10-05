@@ -10,6 +10,6 @@ namespace CrudPessoa.Dtos
         public string Cpf { get; set; }
         public DateTime DataDeNascimento { get; set; }
         public DateTime DataDeRegistro { get; set; }
-        public DateTime DataDeAtualização { get; set; }
+        public DateTime DataDeAtualizacao { get; set; }
     }
 }

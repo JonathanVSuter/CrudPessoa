@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Listagem de pessoas</title>
+<body>
+    <div id="filtros">
+        <input type="text" id="texto-busca" placeholder="Insira um texto para buscar" oninput="ListarPorCriterio(this)"/>
+    </div>
+    <div>
+        <table> 
+            <thead>
+                <tr>                
+                    <th>
+                    Nome
+                    </th>
+                    <th>
+                    Cpf
+                    </th>                     
+                    <th>
+                    Rg
+                    </th>     
+                    <th>
+                    Data de Nascimento
+                    </th>     
+                    <th>
+                    Data da última atualização
+                    </th>
+                    <th>
+                    Data de Registro
+                    </th>                
+                </tr>
+            </thead>
+            <tbody id="listagem-pessoas">                
+            </tbody>                               
+        </table>    
+    </div>
+    <input type="button" value="Voltar" onclick="Voltar()"/>        
+</body>
+<script src="app/src/listarPessoa.js"></script>
+<link rel="stylesheet" href="app/stylesheet/global.css">
+<link rel="stylesheet" href="app/stylesheet/pessoa/listarPessoa.css">
+</html>
